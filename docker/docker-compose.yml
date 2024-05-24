@@ -11,21 +11,21 @@ services:
     image: taskingai/taskingai-inference:v0.2.11
     environment:
       AES_ENCRYPTION_KEY: b90e4648ad699c3bdf62c0860e09eb9efc098ee75f215bf750847ae19d41e4b0 # replace with your own
-      ICON_URL_PREFIX: http://localhost:8080 # replace with your own
+      ICON_URL_PREFIX: http://localhost:8088 # replace with your own
 
   backend-plugin:
     image: taskingai/taskingai-plugin:v0.2.6
     environment:
       AES_ENCRYPTION_KEY: b90e4648ad699c3bdf62c0860e09eb9efc098ee75f215bf750847ae19d41e4b0 # replace with your own
-      ICON_URL_PREFIX: http://localhost:8080 # replace with your own
+      ICON_URL_PREFIX: http://localhost:8088 # replace with your own
 
   backend-api:
     image: taskingai/taskingai-server:v0.2.3-beta-1
     environment:
       POSTGRES_URL: postgres://postgres:TaskingAI321@db:5432/taskingai
-      REDIS_URL: redis://:TaskingAI321@cache:6379/0
-      TASKINGAI_INFERENCE_URL: http://backend-inference:8000
-      TASKINGAI_PLUGIN_URL: http://backend-plugin:8000
+      REDIS_URL: redis://:MuiePSD@cache:6379/0
+      TASKINGAI_INFERENCE_URL: http://backend-inference:8008
+      TASKINGAI_PLUGIN_URL: http://backend-plugin:8008
       AES_ENCRYPTION_KEY: b90e4648ad699c3bdf62c0860e09eb9efc098ee75f215bf750847ae19d41e4b0 # replace with your own
     depends_on:
       - db
@@ -37,14 +37,14 @@ services:
     image: taskingai/taskingai-server:v0.2.3-beta-1
     environment:
       POSTGRES_URL: postgres://postgres:TaskingAI321@db:5432/taskingai
-      REDIS_URL: redis://:TaskingAI321@cache:6379/0
-      TASKINGAI_INFERENCE_URL: http://backend-inference:8000
-      TASKINGAI_PLUGIN_URL: http://backend-plugin:8000
+      REDIS_URL: redis://:MuiePSD@cache:6379/0
+      TASKINGAI_INFERENCE_URL: http://backend-inference:8008
+      TASKINGAI_PLUGIN_URL: http://backend-plugin:8008
       AES_ENCRYPTION_KEY: b90e4648ad699c3bdf62c0860e09eb9efc098ee75f215bf750847ae19d41e4b0 # replace with your own
       JWT_SECRET_KEY: dbefe42f34473990a3fa903a6a3283acdc3a910beb1ae271a6463ffa5a926bfb # replace with your own
       PURPOSE: WEB
       DEFAULT_ADMIN_USERNAME: admin
-      DEFAULT_ADMIN_PASSWORD: TaskingAI321 # replace with your own
+      DEFAULT_ADMIN_PASSWORD: MuiePSD # replace with your own
     depends_on:
       - db
       - cache
@@ -56,7 +56,7 @@ services:
     environment:
       POSTGRES_DB: taskingai
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: TaskingAI321
+      POSTGRES_PASSWORD: MuiePSD
     volumes:
       - ./data/postgres:/var/lib/postgresql/data
     healthcheck:
@@ -68,7 +68,7 @@ services:
 
   cache:
     image: redis:7-alpine
-    command: ["redis-server", "--requirepass", "TaskingAI321"]
+    command: ["redis-server", "--requirepass", "MuiePSD"]
     volumes:
       - ./data/redis:/data
     healthcheck:
@@ -81,7 +81,7 @@ services:
   nginx:
     image: nginx:1.24
     ports:
-      - "8080:80"
+      - "8088:80"
       # edit this to change the port, for example to "8080:80" to use port 8080
     volumes:
       - ./nginx/conf:/etc/nginx/conf.d
